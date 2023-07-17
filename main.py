@@ -220,9 +220,10 @@ if user_input:
 
 
 if st.session_state['generated']:
+    chat_history = ""
     for i in range(len(st.session_state['generated'])-1, -1, -1):
-    # Show bot response
-        st.info(f"Bot: {st.session_state['generated'][i]}")
-    # Show user question
-        st.info(f"User: {st.session_state['past'][i]}")
-
+        # Append bot response
+        chat_history += f"**Bot**: {st.session_state['generated'][i]}\n"
+        # Append user question
+        chat_history += f"**User**: {st.session_state['past'][i]}\n"
+    st.markdown(chat_history)
