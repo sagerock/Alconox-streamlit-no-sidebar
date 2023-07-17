@@ -7,7 +7,6 @@ import json
 from streamlit_chat import message
 import pinecone
 import random
-from streamlit_aggrid import AgGrid
 
 from PIL import Image
 
@@ -221,13 +220,8 @@ if user_input:
 
 
 if st.session_state['generated']:
-    chat_history = []
     for i in range(len(st.session_state['generated'])-1, -1, -1):
-        chat_history.append({
-            'User Message': st.session_state['past'][i],
-            'AI Response': st.session_state["generated"][i]
-        })
-    
-    AgGrid(chat_history)
+        message(st.session_state["generated"][i],seed=bott_av , key=str(i))
+        message(st.session_state['past'][i], is_user=True,avatar_style="personas",seed=user_av, key=str(i) + '_user')
 
 
