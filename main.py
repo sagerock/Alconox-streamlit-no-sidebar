@@ -49,7 +49,8 @@ if query:
     with st.spinner("generating..."):
         messages = st.session_state['messages']
         messages = update_chat(messages, "user", query)
-        response = answer_query_with_context_pinecone(query)
+        # response = answer_query_with_context_pinecone(query)
+        response = get_chatgpt_response(query)
         messages = update_chat(messages, "assistant", response)
         st.session_state.past.append(query)
         st.session_state.generated.append(response)
