@@ -25,7 +25,7 @@ dimension = 1536
 pineconeindex = pinecone.Index(index_name)
 
 # Import your additional functions from another module or define them here
-from utils import get_initial_message, update_chat, answer_query_with_context_pinecone
+from utils import get_initial_message, update_chat, get_chatgpt_response
 
 st.title("Chatbot : ChatGPT General Bot To Ask General Questions")
 st.subheader("AI General Chatbot:")
