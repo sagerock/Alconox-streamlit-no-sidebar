@@ -221,12 +221,8 @@ if user_input:
 
 if st.session_state['generated']:
     for i in range(len(st.session_state['generated'])-1, -1, -1):
-        # Show bot response
-        st.info({
-            "Bot": st.session_state["generated"][i]
-        })
-        # Show user question
-        st.info({
-            "User": st.session_state['past'][i]
-        })
+    # Show bot response
+    st.info(f"Bot: {st.session_state['generated'][i]}")
+    # Show user question
+    st.info(f"User: {st.session_state['past'][i]}")
 
