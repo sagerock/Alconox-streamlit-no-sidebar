@@ -240,7 +240,6 @@ user_input = get_text()
 
 
 if user_input:
-    with st.spinner('Calculating...'):
     output = answer_query_with_context_pinecone(user_input)
 
     # store the output 
