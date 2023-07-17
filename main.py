@@ -195,7 +195,7 @@ def answer_query_with_context_pinecone(query):
 if 'chat' not in st.session_state:
     st.session_state['chat'] = []
 
-user_input = get_text()
+user_input = st.text_input("Please enter your question here")
 
 if user_input:
     with st.spinner('Calculating...'):
