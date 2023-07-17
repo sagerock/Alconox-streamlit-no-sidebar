@@ -8,7 +8,6 @@ from streamlit_chat import message
 import pinecone
 import random
 
-
 from PIL import Image
 
 # When you are working locally set your api keys with this:
@@ -152,6 +151,35 @@ Context: critical cleaning in manufacturing of pharmaceutical, biotech, medical 
 
 
 
+#TO BE ADDED: memory with summary of past discussions
+
+def summarize_past_conversation(content):
+
+    APPEND_COMPLETION_PARAMS = {
+        "temperature": 0.0,
+        "max_tokens": 300,
+        "model": COMPLETIONS_MODEL,
+    }
+
+    prompt = "Summarize this discussion into a single paragraph keeping the topics mentioned: \n" + content
+
+    try:
+        response = openai.Completion.create(
+                    prompt=prompt,
+                    **APPEND_COMPLETION_PARAMS
+                )
+    except Exception as e:
+        print("I'm afraid your question failed! This is the error: ")
+        print(e)
+        return None
+
+    choices = response.get("choices", [])
+    if len(choices) > 0:
+        return choices[0]["text"].strip(" \n")
+    else:
+        return None
+
+
 
 
 
@@ -192,22 +220,37 @@ def answer_query_with_context_pinecone(query):
 
 
 # Storing the chat
-if 'chat' not in st.session_state:
-    st.session_state['chat'] = []
+if 'generated' not in st.session_state:
+    st.session_state['generated'] = []
 
-user_input = st.text_input("Please enter your question here")
+if 'past' not in st.session_state:
+    st.session_state['past'] = []
+
+def clear_text():
+    st.session_state["input"] = ""
+
+# We will get the user's input by calling the get_text function
+def get_text():
+    input_text = st.text_input("Input a question here! For example: \"How do I clean lab glassware?\". \n Also, I have no memory of previous questions!😊")
+    return input_text
+
+
+
+user_input = get_text()
+
 
 if user_input:
     with st.spinner('Calculating...'):
         output = answer_query_with_context_pinecone(user_input)
 
-    # Store the chat in session state
-    st.session_state.chat.append({
-        "user": user_input,
-        "bot": output
-    })
+    # store the output 
+    st.session_state.past.append(user_input)
+    st.session_state.generated.append(output)
 
-# Display the chat history
-for chat in reversed(st.session_state.chat):
-    st.info(f"User: {chat['user']}")
-    st.info(f"Bot: {chat['bot']}")
+
+if st.session_state['generated']:
+    for i in range(len(st.session_state['generated'])-1, -1, -1):
+        message(st.session_state["generated"][i],seed=bott_av , key=str(i))
+        message(st.session_state['past'][i], is_user=True,avatar_style="personas",seed=user_av, key=str(i) + '_user')
+
+
