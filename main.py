@@ -151,6 +151,35 @@ Context: critical cleaning in manufacturing of pharmaceutical, biotech, medical 
 
 
 
+#TO BE ADDED: memory with summary of past discussions
+
+def summarize_past_conversation(content):
+
+    APPEND_COMPLETION_PARAMS = {
+        "temperature": 0.0,
+        "max_tokens": 300,
+        "model": COMPLETIONS_MODEL,
+    }
+
+    prompt = "Summarize this discussion into a single paragraph keeping the topics mentioned: \n" + content
+
+    try:
+        response = openai.Completion.create(
+                    prompt=prompt,
+                    **APPEND_COMPLETION_PARAMS
+                )
+    except Exception as e:
+        print("I'm afraid your question failed! This is the error: ")
+        print(e)
+        return None
+
+    choices = response.get("choices", [])
+    if len(choices) > 0:
+        return choices[0]["text"].strip(" \n")
+    else:
+        return None
+
+
 
 
 
@@ -221,11 +250,7 @@ if user_input:
 
 if st.session_state['generated']:
     for i in range(len(st.session_state['generated'])-1, -1, -1):
-        # Show bot response
-        st.info({
-            "Bot": st.session_state["generated"][i]
-        })
-        # Show user question
-        st.info({
-            "User": st.session_state['past'][i]
-        })
+        message(st.session_state["generated"][i],seed=bott_av , key=str(i))
+        message(st.session_state['past'][i], is_user=True,avatar_style="personas",seed=user_av, key=str(i) + '_user')
+
+
