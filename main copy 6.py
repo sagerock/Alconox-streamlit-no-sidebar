@@ -192,22 +192,39 @@ def answer_query_with_context_pinecone(query):
 
 
 # Storing the chat
-if 'chat' not in st.session_state:
-    st.session_state['chat'] = []
+if 'generated' not in st.session_state:
+    st.session_state['generated'] = []
+
+if 'past' not in st.session_state:
+    st.session_state['past'] = []
+
+def clear_text():
+    st.session_state["input"] = ""
+
+# We will get the user's input by calling the get_text function
+def get_text():
+    input_text = st.text_input("Input a question here! For example: \"How do I clean lab glassware?\". \n Also, I have no memory of previous questions!😊")
+    return input_text
+
+
 
 user_input = get_text()
+
 
 if user_input:
     with st.spinner('Calculating...'):
         output = answer_query_with_context_pinecone(user_input)
 
-    # Store the chat in session state
-    st.session_state.chat.append({
-        "user": user_input,
-        "bot": output
-    })
+    # store the output 
+    st.session_state.past.append(user_input)
+    st.session_state.generated.append(output)
 
-# Display the chat history
-for chat in reversed(st.session_state.chat):
-    st.info(f"User: {chat['user']}")
-    st.info(f"Bot: {chat['bot']}")
+
+if st.session_state['generated']:
+    for i in range(len(st.session_state['generated'])-1, -1, -1):
+    # Show bot response
+        st.info(f"Bot: {st.session_state['generated'][i]}")
+    # Show user question
+        st.info(f"User: {st.session_state['past'][i]}")
+
+
