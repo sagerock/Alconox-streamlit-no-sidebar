@@ -11,12 +11,12 @@ import random
 from PIL import Image
 
 # When you are working locally set your api keys with this:
-openai.api_key = os.getenv('OPENAI_API_KEY')
-pinecone_api_key = os.getenv('PINECONE_API_KEY')
+# openai.api_key = os.getenv('OPENAI_API_KEY')
+# pinecone_api_key = os.getenv('PINECONE_API_KEY')
 
 # When you are uploading to Streamlit, set your keys like this:
-# pinecone_api_key = st.secrets["API_KEYS"]["pinecone"]
-# openai.api_key = st.secrets["API_KEYS"]["openai"]
+pinecone_api_key = st.secrets["API_KEYS"]["pinecone"]
+openai.api_key = st.secrets["API_KEYS"]["openai"]
 
 pinecone.init(api_key=pinecone_api_key, environment="us-west4-gcp")
 
