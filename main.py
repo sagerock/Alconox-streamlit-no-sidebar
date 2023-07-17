@@ -36,7 +36,7 @@ def randomize_array(arr):
 
 st.set_page_config(page_title="Your Custom Database Driven Chatbot", page_icon="images/icon.png", layout="wide")
 
-st.header("Ask your resources questions. \n")
+st.header("Ask the Alconox Custom AI Chatbot \n")
 
 
 # Define the name of the index and the dimensionality of the embeddings
