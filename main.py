@@ -20,6 +20,10 @@ openai.api_key = st.secrets["API_KEYS"]["openai"]
 
 pinecone.init(api_key=pinecone_api_key, environment="us-west4-gcp")
 
+# Page title
+st.set_page_config(page_title='Ask Alconox Chatbot App')
+st.title('Ask Alconox Chatbot App')
+
 # random user picture
 user_av = 1
 
@@ -34,7 +38,9 @@ def randomize_array(arr):
         arr.remove(elem)
     return sampled_arr
 
-st.set_page_config(page_title="Your Custom Database Driven Chatbot", page_icon="images/icon.png", layout="wide")
+# Page title
+st.set_page_config(page_title='Ask Alconox Chatbot App')
+st.title('Ask Alconox Chatbot App')
 
 st.header("Ask the Alconox Custom AI Chatbot \n")
 
@@ -231,7 +237,7 @@ def clear_text():
 
 # We will get the user's input by calling the get_text function
 def get_text():
-    input_text = st.text_input("Input a question here! For example: \"How do I clean lab glassware?\". \n Also, I have no memory of previous questions!😊")
+    input_text = st.text_area("Input a question here! For example: \"How do I clean lab glassware?\". \n Also, I have no memory of previous questions!😊")
     return input_text
 
 
